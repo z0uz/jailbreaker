@@ -41,8 +41,15 @@ jobs:
       run: |
         python -c "import os, json; (not os.path.exists('results.sarif')) and open('results.sarif', 'w').write(json.dumps({'\$schema':'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json','version':'2.1.0','runs':[{'tool':{'driver':{'name':'Jailbreaker-Hybrid-SAST','version':'1.0.0','rules':[]}},'results':[]}]}))"
 
-    - name: Upload SARIF report
+    - name: Upload SARIF Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: jailbreaker-sast-sarif
+        path: results.sarif
+
+    - name: Upload SARIF to GitHub Security Tab
       uses: github/codeql-action/upload-sarif@v3
+      continue-on-error: true
       with:
         sarif_file: results.sarif
         category: jailbreaker-sast
