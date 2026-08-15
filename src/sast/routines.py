@@ -108,8 +108,50 @@ async def red_team_routine(target_path: str, context: Dict[str, Any]) -> Dict[st
     teamer = RedTeamer(target_url=target_url, verifier=verifier)
     findings = await teamer.execute_attacks()
     
+from .sca_scanner import SCAScanner
+from .taint_analyzer import InterproceduralTaintAnalyzer
+from .log_tailer import MITRELogMonitor
+
+@default_router.register_routine(
+    name="sca_scan",
+    keywords=["sca", "dependency", "package", "cve", "manifest", "requirements"],
+    description="Software Composition Analysis to detect vulnerable dependencies against OSV CVE database."
+)
+async def sca_scan_routine(target_path: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    scanner = SCAScanner(target_path=target_path)
+    findings = scanner.scan_dependencies()
     return {
-        "routine": "red_team",
-        "successful_jailbreaks": len(findings),
+        "routine": "sca_scan",
+        "cves_found": len(findings),
         "findings": findings
     }
+
+@default_router.register_routine(
+    name="taint_scan",
+    keywords=["taint", "interprocedural", "dataflow", "source sink", "flow"],
+    description="Interprocedural AST Taint Analysis tracing untrusted inputs to dangerous sinks."
+)
+async def taint_scan_routine(target_path: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    analyzer = InterproceduralTaintAnalyzer(target_path=target_path)
+    findings = analyzer.analyze()
+    return {
+        "routine": "taint_scan",
+        "taint_flows_found": len(findings),
+        "findings": findings
+    }
+
+@default_router.register_routine(
+    name="mitre_log_audit",
+    keywords=["mitre", "threat", "technique", "t1059", "t1110", "t1078", "t1190"],
+    description="Correlates log files against MITRE ATT&CK technique IDs for threat detection."
+)
+async def mitre_log_audit_routine(target_path: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    log_file = context.get("log_file") or "sample.log"
+    monitor = MITRELogMonitor(log_path=log_file)
+    findings = monitor.analyze_log_file(log_file)
+    return {
+        "routine": "mitre_log_audit",
+        "threats_detected": len(findings),
+        "findings": findings
+    }
+

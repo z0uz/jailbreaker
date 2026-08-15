@@ -44,8 +44,9 @@ async def main():
         model_config = config.get("models", {}).get("openai", {"model": "gpt-3.5-turbo"})
         model = OpenAIModel(model_config)
     elif args.model == "groq":
+        from src.models.groq_model import GroqModel
         model_config = config.get("models", {}).get("groq", {"model": "llama-3.1-8b-instant"})
-        model = OpenAIModel(model_config)
+        model = GroqModel(model_config)
     else:
         model_config = config.get("models", {}).get("ollama", {"model": "deepseek-coder"})
         model = OllamaModel(model_config)

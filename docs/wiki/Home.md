@@ -12,13 +12,19 @@
 2. **[Hybrid SAST Pipeline](Hybrid-SAST-Pipeline)**
    - How static analysis (Semgrep/AST) integrates with Chain-of-Thought LLM verification to eliminate false positives and generate patches.
 
-3. **[LLM Red-Teaming & Guardrails](LLM-Red-Teaming-&-Guardrails)**
+3. **[Software Composition Analysis (SCA)](Software-Composition-Analysis)**
+   - Dependency manifest scanning against OSV CVE database.
+
+4. **[Interprocedural Taint Analyzer](Interprocedural-Taint-Analyzer)**
+   - Multi-file AST control flow and source-to-sink dataflow tracing.
+
+5. **[MITRE ATT&CK Threat Log Monitor](MITRE-ATT&CK-Threat-Log-Monitor)**
+   - Log stream correlation mapped to MITRE ATT&CK technique IDs.
+
+6. **[LLM Red-Teaming & Guardrails](LLM-Red-Teaming-&-Guardrails)**
    - Automated adversarial testing (Prompt Injection, Role-Play, Hypothetical Scenarios) and DAST API evaluation.
 
-4. **[AI Log Auditing](AI-Log-Auditing)**
-   - Parsing application and server logs for OWASP compliance violations, credential leaks, and anomalies.
-
-5. **[Configuration Guide](Configuration-Guide)**
+7. **[Configuration Guide](Configuration-Guide)**
    - Complete reference for `config.yaml`, environment variables, model choices (OpenAI, Ollama, Groq), and SARIF reporting.
 
 ---

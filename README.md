@@ -2,10 +2,13 @@
 
 `Jailbreaker` is an enterprise-grade automated security auditing and evaluation framework. It combines:
 1. **Hybrid SAST & LLM Verification**: Deterministic static application security testing (Semgrep/AST) paired with an LLM security judge to eliminate false positives and generate remediation patches.
-2. **AI Security Log Auditing**: Intelligent parsing of server and application logs to detect OWASP compliance violations, credential leaks, and anomalies.
-3. **LLM Guardrail & Red-Teaming Evaluation**: Automated adversarial attack testing (prompt injection, role-play, hypothetical scenarios) to assess LLM safety boundaries.
-4. **Natural Language Task Routing**: Plain-text objective execution via the `ObjectiveTaskRouter`.
-5. **SARIF Enterprise Reporting**: Native export to OASIS SARIF v2.1.0 JSON format for GitHub Advanced Security, GitLab, and Azure DevOps integration.
+2. **Software Composition Analysis (SCA)**: Scans dependency manifests (`requirements.txt`, `package.json`) against the OSV CVE database for vulnerable package versions.
+3. **Interprocedural AST Taint Analysis**: Multi-file static analysis tracing untrusted user inputs across module function calls down to dangerous sinks.
+4. **MITRE ATT&CK Threat Log Monitor**: Real-time correlation of system and application logs mapped to standard MITRE ATT&CK technique IDs (`T1059`, `T1110`, `T1078`, `T1190`, `T1552`).
+5. **LLM Output & Tool-Calling Safety**: Audits model response text and function parameters for payload injection, command execution, and path traversal (OWASP LLM02 / LLM07 / LLM08).
+6. **LLM Guardrail & Red-Teaming Evaluation**: Automated adversarial attack testing (prompt injection, role-play, hypothetical scenarios) to assess LLM safety boundaries.
+7. **Natural Language Task Routing**: Plain-text objective execution via the `ObjectiveTaskRouter`.
+8. **SARIF Enterprise Reporting**: Native export to OASIS SARIF v2.1.0 JSON format for GitHub Advanced Security, GitLab, and Azure DevOps integration.
 
 ---
 
