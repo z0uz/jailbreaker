@@ -89,12 +89,9 @@ async def main():
             if 'log_findings' in routine_data:
                 all_findings.extend(routine_data['log_findings'])
         
-        if all_findings:
-            exporter = SARIFExporter()
-            exporter.export_sarif_file(all_findings, args.output)
-            logger.info(f"Successfully exported {len(all_findings)} findings to {args.output}")
-        else:
-            logger.info("No findings to export to SARIF.")
+        exporter = SARIFExporter()
+        exporter.export_sarif_file(all_findings, args.output)
+        logger.info(f"Successfully exported {len(all_findings)} findings to {args.output}")
 
 if __name__ == "__main__":
     asyncio.run(main())
