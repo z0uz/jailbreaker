@@ -1,0 +1,57 @@
+rules:
+  - id: owasp-llm01-prompt-injection
+    languages: [python]
+    severity: WARNING
+    message: "Potential Prompt Injection (OWASP LLM01): User input is being directly concatenated or formatted into an LLM prompt. Use system prompts to isolate instructions, or sanitize user input before passing it to the model."
+    metadata:
+      cwe: "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+      owasp: "LLM01: Prompt Injection"
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $PROMPT = "... %s ..." % $USER_INPUT
+              ...
+              openai.ChatCompletion.create(..., messages=[..., {"role": "user", "content": $PROMPT}], ...)
+          - pattern: |
+              $PROMPT = f"... {$USER_INPUT} ..."
+              ...
+              openai.ChatCompletion.create(..., messages=[..., {"role": "user", "content": $PROMPT}], ...)
+          - pattern: |
+              $PROMPT = "... {} ...".format($USER_INPUT)
+              ...
+              openai.ChatCompletion.create(..., messages=[..., {"role": "user", "content": $PROMPT}], ...)
+
+  - id: owasp-llm02-insecure-output-handling
+    languages: [python]
+    severity: ERROR
+    message: "Insecure Output Handling (OWASP LLM02): LLM output is being passed directly to an execution sink (e.g., eval, exec, os.system). An attacker could manipulate the LLM into generating malicious code that is blindly executed by your server."
+    metadata:
+      cwe: "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+      owasp: "LLM02: Insecure Output Handling"
+    patterns:
+      - pattern-inside: |
+          $RESPONSE = openai.ChatCompletion.create(...)
+          ...
+          $OUTPUT = $RESPONSE.choices[0].message.content
+          ...
+      - pattern-either:
+          - pattern: eval($OUTPUT)
+          - pattern: exec($OUTPUT)
+          - pattern: os.system($OUTPUT)
+          - pattern: subprocess.run($OUTPUT, shell=True)
+
+  - id: owasp-llm06-sensitive-information-disclosure
+    languages: [python]
+    severity: WARNING
+    message: "Sensitive Information Disclosure (OWASP LLM06): A variable that potentially contains secrets (e.g., passwords, API keys, tokens) is being passed into an LLM prompt. This could leak credentials to third-party model providers."
+    metadata:
+      cwe: "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      owasp: "LLM06: Sensitive Information Disclosure"
+    patterns:
+      - pattern-inside: |
+          $SECRET = ...
+          ...
+      - pattern: openai.ChatCompletion.create(..., messages=[..., {"role": "user", "content": $SECRET}], ...)
+    pattern-sources:
+      - pattern: os.environ.get(...)
+      - pattern: config[...]

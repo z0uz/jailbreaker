@@ -1,0 +1,43 @@
+# Environment & Secrets
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.crt
+
+# Python & Pytest
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.nox/
+.tox/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Log Files & Generated Output Reports
+*.log
+logs/
+app_logs/
+*.sarif
+results.sarif
+sast_report.sarif
+run_summary.txt
+complex_audit.log
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Artifacts
+.DS_Store
+Thumbs.db

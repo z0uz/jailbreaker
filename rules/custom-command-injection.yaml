@@ -1,0 +1,21 @@
+rules:
+  - id: python-shell-true-command-injection
+    languages: [python]
+    severity: ERROR
+    message: "Potential Command Injection: Avoid running subprocess with shell=True when handling unverified input."
+    metadata:
+      cwe: "CWE-78: OS Command Injection"
+      owasp: "LLM10: Improper Output Handling"
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.$FUNC(..., shell=True, ...)
+          - pattern: os.system(...)
+          - pattern: os.popen(...)
+          
+  - id: nodejs-child-process-exec
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "Potential Command Injection: child_process.exec() passes strings to a shell environment. Use execFile or spawn instead."
+    metadata:
+      cwe: "CWE-78: OS Command Injection"
+    pattern: child_process.exec(...)
