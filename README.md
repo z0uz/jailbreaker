@@ -9,7 +9,43 @@
 
 ---
 
+## ⚡ Architecture & Workflow Preview
+
+```mermaid
+flowchart TD
+    A[Target Source Code / Logs / Model] --> B[Step 1: SAST Candidate Scanner\nSemgrep / AST Rules]
+    B -->|Extract Raw Candidates| C[Step 2: LLM Verification Judge\nChain-of-Thought Evaluation]
+    C -->|Analyze Source -> Sanitizer -> Sink| D{Is True Positive?}
+    D -->|Yes| E[Verified Vulnerability Finding\n+ Remediation Code Patch]
+    D -->|No| F[Filtered False Positive]
+    E --> G[SARIF Report Export\nOASIS v2.1.0]
+    G --> H[CI/CD Security Dashboards\nGitHub / GitLab / Azure DevOps]
+```
+
+### 🖥️ Terminal Execution Preview
+
+```text
+$ python3 sast_scan.py --target ./src --model ollama
+
+2026-08-15 10:05:32 - sast_scan - INFO - Starting Hybrid SAST scan on target: ./src
+2026-08-15 10:05:32 - src.sast.pipeline - INFO - Step 1: Running SAST candidate scan on ./src...
+2026-08-15 10:05:40 - src.sast.sast_runner - INFO - Candidate scan completed: Found 4 candidates.
+2026-08-15 10:05:40 - src.sast.pipeline - INFO - Step 2: Verifying candidates using LLM security judge...
+2026-08-15 10:05:42 - src.sast.pipeline - INFO - Confirmed True Positive: python.lang.security.audit.insecure-deserialization in src/app.py:L42
+2026-08-15 10:05:42 - src.sast.pipeline - INFO - Filtered False Positive: python.lang.security.audit.dynamic-file-open in src/main.py
+2026-08-15 10:05:42 - src.sast.pipeline - INFO - SARIF report exported to sast_report.sarif
+
+=== Scan Summary ===
+Target: ./src
+Candidates Found: 4
+Verified True Positives: 1
+Report exported to: sast_report.sarif
+```
+
+---
+
 ## 📋 Table of Contents
+- [Architecture & Workflow Preview](#-architecture--workflow-preview)
 - [Installation](#-installation)
 - [Configuration (`config.yaml`)](#-configuration-configyaml)
 - [Usage & Commands](#-usage--commands)
