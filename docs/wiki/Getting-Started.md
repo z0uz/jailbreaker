@@ -1,10 +1,10 @@
-# Getting Started 🚀
+# Getting Started
 
 This guide walks you through installing and executing your first security scan with `Jailbreaker`.
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Python 3.9+** installed.
 - **Git** installed.
@@ -13,7 +13,7 @@ This guide walks you through installing and executing your first security scan w
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository**:
    ```bash
@@ -33,7 +33,7 @@ This guide walks you through installing and executing your first security scan w
 
 ---
 
-## 🚀 Running Your First Scan
+## Running Your First Scan
 
 ### Option A: Local Offline Scan (Zero Keys Needed)
 If you have Ollama running locally:

@@ -1,10 +1,10 @@
-# LLM Red-Teaming & Guardrails 🎯
+# LLM Red-Teaming & Guardrails
 
 `Jailbreaker` evaluates LLM guardrails, system prompt integrity, and adversarial resistance.
 
 ---
 
-## ⚡ Attack Strategies (`src/attacks/`)
+## Attack Strategies (`src/attacks/`)
 
 1. **Prompt Injection (`prompt_injection.py`)**:
    - Tests direct and indirect prompt overrides (e.g. instruction hijacking, delimiter insertion).
@@ -17,7 +17,7 @@
 
 ---
 
-## 🚀 Running Red-Teaming Evaluations
+## Running Red-Teaming Evaluations
 
 ### 1. Model Security Evaluation
 Benchmark a target LLM model against all attack categories:

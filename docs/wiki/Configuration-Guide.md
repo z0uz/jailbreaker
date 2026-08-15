@@ -1,10 +1,10 @@
-# Configuration Guide ⚙️
+# Configuration Guide
 
 Configuration is managed via `config.yaml`.
 
 ---
 
-## 📄 Complete `config.yaml` Reference
+## Complete `config.yaml` Reference
 
 ```yaml
 models:

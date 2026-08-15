@@ -1,10 +1,10 @@
-# Hybrid SAST Pipeline 🔍
+# Hybrid SAST Pipeline
 
 The Hybrid SAST Engine combines the speed of deterministic static analysis with the contextual understanding of Large Language Models.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 [Target Source Code]
