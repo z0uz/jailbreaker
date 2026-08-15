@@ -1,5 +1,8 @@
 # Jailbreaker: Hybrid SAST, Security Log Audit & LLM Red-Teaming Suite
 
+[![Pytest Automated Suite](https://github.com/z0uz/jailbreaker/actions/workflows/test.yml/badge.svg)](https://github.com/z0uz/jailbreaker/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 `Jailbreaker` is an enterprise-grade automated security auditing and evaluation framework. It combines:
 1. **Hybrid SAST & LLM Verification**: Deterministic static application security testing (Semgrep/AST) paired with an LLM security judge to eliminate false positives and generate remediation patches.
 2. **Software Composition Analysis (SCA)**: Scans dependency manifests (`requirements.txt`, `package.json`) against the OSV CVE database for vulnerable package versions.

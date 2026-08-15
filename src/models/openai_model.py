@@ -11,6 +11,7 @@ class OpenAIModel(BaseModel):
     """OpenAI API wrapper for security research."""
     
     def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
         import os
         api_key = config.get('api_key')
         if not api_key or api_key.startswith("${"):

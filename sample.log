@@ -1,0 +1,3 @@
+2026-08-13 20:15:01 [INFO] User login success: admin@client.com
+2026-08-13 20:15:05 [WARN] API Request failed: /api/v1/user?id=105' OR '1'='1
+2026-08-13 20:15:10 [ERROR] Exception logged: DB connection string exposed: postgresql://admin:REDACTED_PASSWORD@localhost:5432/main_db

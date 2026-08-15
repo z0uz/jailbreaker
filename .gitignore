@@ -24,6 +24,7 @@ ENV/
 
 # Log Files & Generated Output Reports
 *.log
+!sample.log
 logs/
 app_logs/
 *.sarif
