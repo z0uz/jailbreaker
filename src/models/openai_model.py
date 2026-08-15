@@ -11,9 +11,14 @@ class OpenAIModel(BaseModel):
     """OpenAI API wrapper for security research."""
     
     def __init__(self, config: Dict[str, Any]):
-        super().__init__(config)
+        import os
+        api_key = config.get('api_key')
+        if not api_key or api_key.startswith("${"):
+            env_var = api_key[2:-1] if (api_key and api_key.startswith("${") and api_key.endswith("}")) else "OPENAI_API_KEY"
+            api_key = os.getenv(env_var) or os.getenv("GROQ_API_KEY") or os.getenv("OPENAI_API_KEY") or "dummy-key-for-offline"
+
         self.client = openai.AsyncOpenAI(
-            api_key=config.get('api_key'),
+            api_key=api_key,
             base_url=config.get('base_url')
         )
         self.model_name = config.get('model', 'gpt-3.5-turbo')

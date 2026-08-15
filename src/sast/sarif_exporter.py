@@ -19,7 +19,7 @@ class SARIFExporter:
         results = []
         
         for finding in verified_findings:
-            rule_id = finding.get("check_id", "rule-unknown")
+            rule_id = finding.get("check_id") or finding.get("rule_id", "rule-unknown")
             cwe_id = finding.get("cwe_id", "CWE-Unknown")
             
             if rule_id not in rule_indices:
@@ -30,7 +30,7 @@ class SARIFExporter:
                         "text": f"Security check: {rule_id}"
                     },
                     "fullDescription": {
-                        "text": finding.get("explanation", "")
+                        "text": finding.get("explanation", finding.get("message", "Potential issue detected"))
                     },
                     "properties": {
                         "cwe": [cwe_id]
@@ -38,24 +38,24 @@ class SARIFExporter:
                 })
             
             rule_index = rule_indices[rule_id]
-            file_path = finding.get("file_path", "unknown")
-            start_line = finding.get("start_line", 1)
-            end_line = finding.get("end_line", 1)
+            file_path = finding.get("file_path") or finding.get("path", "src/main.py")
+            start_line = finding.get("start_line", finding.get("line_number", 1))
+            end_line = finding.get("end_line", start_line)
             
-            level = "error" if finding.get("confidence") == "HIGH" else "warning"
+            level = "error" if finding.get("severity", "").upper() == "ERROR" or finding.get("confidence") == "HIGH" else "warning"
             
             sarif_result = {
                 "ruleId": rule_id,
                 "ruleIndex": rule_index,
                 "level": level,
                 "message": {
-                    "text": f"[{cwe_id}] {finding.get('message')}\n\nExplanation: {finding.get('explanation')}"
+                    "text": f"[{cwe_id}] {finding.get('message')}\n\nExplanation: {finding.get('explanation', 'Candidate vulnerability isolated by AST scanner.')}"
                 },
                 "locations": [
                     {
                         "physicalLocation": {
                             "artifactLocation": {
-                                "uri": file_path
+                                "uri": str(file_path).lstrip("./")
                             },
                             "region": {
                                 "startLine": start_line,
@@ -65,8 +65,8 @@ class SARIFExporter:
                     }
                 ],
                 "properties": {
-                    "confidence": finding.get("confidence"),
-                    "remediation_patch": finding.get("remediation_patch")
+                    "confidence": finding.get("confidence", "MEDIUM"),
+                    "remediation_patch": finding.get("remediation_patch", "")
                 }
             }
             results.append(sarif_result)
