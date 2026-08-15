@@ -14,7 +14,7 @@ def handle_user_input(user_id, command):
         subprocess.run(f"ping -c 4 {command}", shell=True)
 
     # Hardcoded Credentials
-    secret_key = "AKIA-FAKE-AWS-KEY-123456"
+    secret_key = "FAKE-KEY-REDACTED-123456"
     
     # Path Traversal Vulnerability
     try:
