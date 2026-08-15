@@ -28,14 +28,12 @@ jobs:
       env:
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       run: |
-        python run_objective.py --objective "run static scan" --target . --model groq --output results.sarif
+        python sast_scan.py --target ./src --output results.sarif --model groq
       continue-on-error: true
 
     - name: Ensure SARIF File Exists
       run: |
-        if [ ! -f results.sarif ]; then
-          python -c "import json; json.dump({\"\$schema\":\"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json\",\"version\":\"2.1.0\",\"runs\":[{\"tool\":{\"driver\":{\"name\":\"Jailbreaker-Hybrid-SAST\",\"version\":\"1.0.0\",\"rules\":[]}},\"results\":[]}]}, open('results.sarif', 'w'))"
-        fi
+        python -c "import os, json; (not os.path.exists('results.sarif')) and open('results.sarif', 'w').write(json.dumps({'\$schema':'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json','version':'2.1.0','runs':[{'tool':{'driver':{'name':'Jailbreaker-Hybrid-SAST','version':'1.0.0','rules':[]}},'results':[]}]}))"
 
     - name: Upload SARIF report
       uses: github/codeql-action/upload-sarif@v3

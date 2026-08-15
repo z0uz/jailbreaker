@@ -31,7 +31,7 @@ async def main():
     parser.add_argument("--target", "-t", required=True, help="Target file or directory path to scan")
     parser.add_argument("--output", "-o", default="sast_report.sarif", help="Output report file path")
     parser.add_argument("--format", "-f", choices=["sarif", "json"], default="sarif", help="Output report format")
-    parser.add_argument("--model", "-m", choices=["openai", "ollama"], default="openai", help="LLM verifier model choice")
+    parser.add_argument("--model", "-m", choices=["openai", "ollama", "groq"], default="openai", help="LLM verifier model choice")
     parser.add_argument("--config", "-c", default="config.yaml", help="Configuration file path")
     parser.add_argument("--stress-test", action="store_true", help="Enable data augmentation stress testing on findings")
 
@@ -42,6 +42,9 @@ async def main():
     # Setup LLM model
     if args.model == "openai":
         model_config = config.get("models", {}).get("openai", {"model": "gpt-3.5-turbo"})
+        model = OpenAIModel(model_config)
+    elif args.model == "groq":
+        model_config = config.get("models", {}).get("groq", {"model": "llama-3.1-8b-instant"})
         model = OpenAIModel(model_config)
     else:
         model_config = config.get("models", {}).get("ollama", {"model": "deepseek-coder"})
